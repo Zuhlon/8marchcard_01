@@ -98,12 +98,12 @@ const greetingsByPerson: Record<string, Array<{ id: number; text: string; animat
   ],
 }
 
-// Коды доступа (новые для всех четырёх)
+// Коды доступа (уникальные для всех четырёх)
 const ACCESS_CODES: Record<string, { name: string; audioFile: string }> = {
-  "2025YANA8M": { name: "Яна", audioFile: "/yana.mp3" },
-  "2025ANNA8M": { name: "Аня", audioFile: "/anna.mp3" },
-  "2025VERA8M": { name: "Вероника", audioFile: "/veronica.mp3" },
-  "2025TANYA8M": { name: "Таня", audioFile: "/tanya.mp3" },
+  "YANA-78234": { name: "Яна", audioFile: "/yana.mp3" },
+  "ANNA-56129": { name: "Аня", audioFile: "/anna.mp3" },
+  "VERA-93521": { name: "Вероника", audioFile: "/veronica.mp3" },
+  "TANYA-64872": { name: "Таня", audioFile: "/tanya.mp3" },
 }
 
 // Формы карточек с CSS clip-path (21 форма)
@@ -614,7 +614,9 @@ export default function Home() {
   }, [userData])
   
   const handleCodeSubmit = useCallback((code: string) => {
-    const data = ACCESS_CODES[code]
+    // Преобразуем код в верхний регистр для нечувствительности к регистру
+    const normalizedCode = code.toUpperCase().trim()
+    const data = ACCESS_CODES[normalizedCode]
     if (data) {
       setUserData(data)
       setIsAuthenticated(true)
