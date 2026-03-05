@@ -2,138 +2,133 @@
 
 import { useState, useCallback, useRef, useMemo, useEffect } from 'react'
 
-// Поздравления в стиле хокку для UX-дизайнеров (21 карточка) - мягкие, позитивные
-const greetings = [
-  {
-    id: 1,
-    text: "Твой UX — искусство,\nКаждый экран как поэма,\nТы — волшебница! ✨",
-    animation: "confetti"
-  },
-  {
-    id: 2,
-    text: "NPS — сто баллов!\nПользователи счастливы,\nТы — их любимая! 🌸",
-    animation: "stars"
-  },
-  {
-    id: 3,
-    text: "Customer Journey —\nПуть к сердцам пользователей,\nТы знаешь дорогу! 💖",
-    animation: "birds"
-  },
-  {
-    id: 4,
-    text: "Интерфейс твой —\nКак уютный домик в сказке,\nВсем в нём тепло! 🏠",
-    animation: "bees"
-  },
-  {
-    id: 5,
-    text: "Retention растёт —\nПользователи возвращаются,\nИм нравится с тобой! ✨",
-    animation: "flowers"
-  },
-  {
-    id: 6,
-    text: "Дизайн-мышление —\nТвой дар видеть красивым\nТо, что другим сложно! 💫",
-    animation: "hearts"
-  },
-  {
-    id: 7,
-    text: "Десять из десяти!\nТвои идеи всегда —\nСамые лучшие! 🌟",
-    animation: "butterflies"
-  },
-  {
-    id: 8,
-    text: "Персоны твои —\nКак добрые друзья в сказке,\nТы их создала! 🌺",
-    animation: "petals"
-  },
-  {
-    id: 9,
-    text: "Conversion Rate —\nВырос благодаря тебе,\nТы — настоящий профи! 🎉",
-    animation: "glitter"
-  },
-  {
-    id: 10,
-    text: "Дедлайн? Не страшно!\nТы справляешься легко —\nМагия твоя! 🌈",
-    animation: "rainbow"
-  },
-  {
-    id: 11,
-    text: "Пять звёзд в App Store —\nЭто твоих рук творенье,\nГордись собой, прекрасная! ⭐",
-    animation: "nps"
-  },
-  {
-    id: 12,
-    text: "CSS — каскад,\nStyle — улыбка твоя,\nS — сияй всегда! 🌸",
-    animation: "sakura"
-  },
-  {
-    id: 13,
-    text: "Usability —\nТы делаешь сложное\nПростым и прекрасным! 💕",
-    animation: "confetti"
-  },
-  {
-    id: 14,
-    text: "A/B тест прошёл!\nПобедил вариант твой —\nИнтуиция не подвела! 💯",
-    animation: "stars"
-  },
-  {
-    id: 15,
-    text: "Wireframe готов —\nПервые штрихи чудесны,\nТалант твой цветёт! 🌷",
-    animation: "birds"
-  },
-  {
-    id: 16,
-    text: "User Flow дня —\nКофе → Идеи → Успех,\nТвой день прекрасен! ☕",
-    animation: "bees"
-  },
-  {
-    id: 17,
-    text: "Accessibility —\nТы открываешь миры\nДля каждого сердца! 💖",
-    animation: "flowers"
-  },
-  {
-    id: 18,
-    text: "Time on Page —\nПользователи любят\nТвои творения! 💜",
-    animation: "hearts"
-  },
-  {
-    id: 19,
-    text: "Bounce Rate — ноль!\nВсе остаются с тобой,\nТы — притягательна! 🦋",
-    animation: "butterflies"
-  },
-  {
-    id: 20,
-    text: "Prototype готов!\nТвоя идея ожила —\nСкоро взлетит! 🚀",
-    animation: "petals"
-  },
-  {
-    id: 21,
-    text: "В бэклоге задачи,\nНо ты расправишься с ними,\nТы — чемпионка! 🏆",
-    animation: "glitter"
-  },
-]
+// Персонализированные поздравления в стиле хокку для каждой девушки
+const greetingsByPerson: Record<string, Array<{ id: number; text: string; animation: string }>> = {
+  "Яна": [
+    { id: 1, text: "Яна, твой UX —\nКак утренняя заря,\nСветит всем нам! ✨", animation: "confetti" },
+    { id: 2, text: "Яночка милая,\nТвои макеты — мечта,\nКлиенты в восторге! 🌸", animation: "stars" },
+    { id: 3, text: "Grid и Column —\nПодвластны тебе, Яна,\nГармония вечно! 💖", animation: "birds" },
+    { id: 4, text: "Твой Figma-файл —\nКак произведенье искусства,\nЯна, ты — талантушка! 🎨", animation: "bees" },
+    { id: 5, text: "Яна, глаза твои —\nКак лучший UX-исследованье,\nВ них свет и тепло! ✨", animation: "flowers" },
+    { id: 6, text: "Persona готова —\nЯна воплотила мечту,\nПользователь счастлив! 💫", animation: "hearts" },
+    { id: 7, text: "Десять из десяти!\nЯна, твои прототипы —\nЭталон для всех! 🌟", animation: "butterflies" },
+    { id: 8, text: "Яна прекрасна,\nКак идеально чистый код,\nБез багов и сбоев! 💕", animation: "petals" },
+    { id: 9, text: "Hearthmap нарисован,\nЯна, ты видишь сердца —\nВот настоящий дар! 💖", animation: "glitter" },
+    { id: 10, text: "Спринт завершён,\nЯна, ты — наш герой,\nВсё сделано в срок! 🏆", animation: "rainbow" },
+    { id: 11, text: "Яна, улыбка твоя —\nЛучший UI для любого,\nСердца расцветают! 🌷", animation: "nps" },
+    { id: 12, text: "Components — строй,\nЯна всё собрала,\nКрасота и польза! 🌸", animation: "sakura" },
+    { id: 13, text: "Testing прошёл,\nЯна, твой дизайн — топ,\nБагов не найдено! 💯", animation: "confetti" },
+    { id: 14, text: "MVP готов,\nЯна вывела продукт,\nКоманда ликует! 🚀", animation: "stars" },
+    { id: 15, text: "Яна, твой вкус —\nЭталон для индустрии,\nУчат в школах! 📚", animation: "birds" },
+    { id: 16, text: "Dark mode и light —\nЯна, ты обе верси\nСоздала прекрасно! 🌓", animation: "bees" },
+    { id: 17, text: "Яна, твой стиль —\nКак рассвет над рекой,\nУмиротворяет! 💜", animation: "flowers" },
+    { id: 18, text: "Figma и Sketch —\nЯна владеет всем,\nМагия дизайна! 🦋", animation: "hearts" },
+    { id: 19, text: "Отзыв получен —\nЯна, ты превзошла\nВсе ожидания! 🎉", animation: "butterflies" },
+    { id: 20, text: "Pixel perfect —\nЯна, это твой мир,\nТочность и красота! 📐", animation: "petals" },
+    { id: 21, text: "Яна, с 8 Марта!\nТы — лучшая из лучших,\nСияй и цвети! 🌺", animation: "glitter" },
+  ],
+  "Аня": [
+    { id: 1, text: "Анечка, UX твой —\nКак песня весенняя,\nЛаскает и греет! ✨", animation: "confetti" },
+    { id: 2, text: "Аня, глаза твои —\nКак идеальный интерфейс,\nИнтуитивны и чисты! 🌸", animation: "stars" },
+    { id: 3, text: "User Flow — река,\nАня направляет поток,\nК цели ведет! 💖", animation: "birds" },
+    { id: 4, text: "Анечка милая,\nТвой дизайн — вдохновенье,\nВсе говорят: «Вау!» 🎨", animation: "bees" },
+    { id: 5, text: "Аня, идеи твои —\nКак лепестки сакуры,\nЛегки и прекрасны! ✨", animation: "flowers" },
+    { id: 6, text: "Research проведён,\nАня узнала всё,\nИнсайты найдены! 💫", animation: "hearts" },
+    { id: 7, text: "Десять из десяти!\nАня, твои решения —\nЗолотой стандарт! 🌟", animation: "butterflies" },
+    { id: 8, text: "Wireframe — скелет,\nАня вдохнула жизнь,\nПродукт оживает! 💕", animation: "petals" },
+    { id: 9, text: "Аня, талант твой —\nКак солнце в пасмурный день,\nОсвещает всё! 💖", animation: "glitter" },
+    { id: 10, text: "Дедлайн не страшен,\nАня всё успевает,\nСпокойна и точна! 🏆", animation: "rainbow" },
+    { id: 11, text: "Аня, улыбка твоя —\nЛучшая анимация,\nСердца замирают! 🌷", animation: "nps" },
+    { id: 12, text: "Typography — искусство,\nАня владеет им,\nШрифты поют! 📝", animation: "sakura" },
+    { id: 13, text: "Moodboard готов,\nАня собрала мечту,\nКлиент в восторге! 💯", animation: "confetti" },
+    { id: 14, text: "Аня, руки твои —\nСоздают волшебство,\nКаждый пиксель — любовь! 💜", animation: "stars" },
+    { id: 15, text: "Color palette —\nАня, твой вкус безупречен,\nГармония вечно! 🎨", animation: "birds" },
+    { id: 16, text: "Prototype живой,\nАня показала чудо,\nИнвесторы — наши! 🦋", animation: "bees" },
+    { id: 17, text: "Аня, душа твоя —\nКак лучший User Experience,\nДобра и тепла! 💖", animation: "flowers" },
+    { id: 18, text: "Metrics растут,\nАня — причина успеха,\nЦифры не врут! 📊", animation: "hearts" },
+    { id: 19, text: "Styleguide готов,\nАня создала систему,\nПорядок и красота! 📚", animation: "butterflies" },
+    { id: 20, text: "Аня, с 8 Марта!\nТы — звезда UX-мира,\nСияй ярче всех! 🌺", animation: "petals" },
+    { id: 21, text: "Аня прекрасна,\nКак идеальный макет,\nБез изъянов совсем! ✨", animation: "glitter" },
+  ],
+  "Вероника": [
+    { id: 1, text: "Вероника, UX твой —\nКак стихи великих поэтов,\nВдохновляет всех! ✨", animation: "confetti" },
+    { id: 2, text: "Ника, глаза твои —\nГлубже любого research,\nВсё понимают! 🌸", animation: "stars" },
+    { id: 3, text: "Вероника милая,\nТвой вкус — эталон красоты,\nВсе восхищаются! 💖", animation: "birds" },
+    { id: 4, text: "Interface твой —\nКак сад весенний, Ника,\nЦветёт и радует! 🌺", animation: "bees" },
+    { id: 5, text: "Вероника, ум твой —\nОстрый, как нож дизайнера,\nТочность в каждой линии! ✨", animation: "flowers" },
+    { id: 6, text: "Journey map готов,\nВероника видит путь,\nПользователь доволен! 💫", animation: "hearts" },
+    { id: 7, text: "Десять из десяти!\nНика, твои работы —\nШедевры искусства! 🌟", animation: "butterflies" },
+    { id: 8, text: "Вероника, стиль твой —\nУникален и узнаваем,\nФирменный почерк! 💕", animation: "petals" },
+    { id: 9, text: "Sprint за спринтом,\nНика всё держит в руках,\nМастер своего дела! 💖", animation: "glitter" },
+    { id: 10, text: "Дедлайн горит?\nВероника спокойна,\nВсё под контролем! 🏆", animation: "rainbow" },
+    { id: 11, text: "Ника, улыбка твоя —\nЛучшая feedback-форма,\nВсе отвечают: «Да!» 🌷", animation: "nps" },
+    { id: 12, text: "Layout и Grid —\nВероника, ты царица,\nСтруктура — основа! 📐", animation: "sakura" },
+    { id: 13, text: "Testing успешен,\nНика, твой UX — топ,\nЮзеры ликуют! 💯", animation: "confetti" },
+    { id: 14, text: "Вероника, сердце твоё —\nКак anchor point в дизайне,\nТочка опоры! 💜", animation: "stars" },
+    { id: 15, text: "Icon set готов,\nНика нарисовала чудо,\nМаленькие шедевры! 🎨", animation: "birds" },
+    { id: 16, text: "Вероника, руки —\nСоздают красоту из хаоса,\nПорядок и стиль! 🦋", animation: "bees" },
+    { id: 17, text: "Accessibility —\nНика открыла двери,\nДоступно для всех! 💖", animation: "flowers" },
+    { id: 18, text: "Вероника, голос твой —\nКак лучший UX-copy,\nУбеждает и греет! 📝", animation: "hearts" },
+    { id: 19, text: "Review прошёл,\nНика, замечаний ноль,\nИдеально всё! 🎉", animation: "butterflies" },
+    { id: 20, text: "Вероника, с 8 Марта!\nТы — муза дизайна,\nВдохновляешь нас! 🌺", animation: "petals" },
+    { id: 21, text: "Ника прекрасна,\nКак完美的 UI,\nГармония во всём! ✨", animation: "glitter" },
+  ],
+  "Таня": [
+    { id: 1, text: "Таня, UX твой —\nКак тёплый чай зимой,\nУютно и правильно! ✨", animation: "confetti" },
+    { id: 2, text: "Танюша милая,\nТвои макеты — сказка,\nВеришь в чудеса! 🌸", animation: "stars" },
+    { id: 3, text: "Таня, улыбка —\nЛучший onboarding в мире,\nВсе понимают! 💖", animation: "birds" },
+    { id: 4, text: "Interface твой,\nТаня, как добрый друг,\nПомогает всегда! 🤝", animation: "bees" },
+    { id: 5, text: "Танюша, идеи —\nКак искры от костра,\nРазгораются ярко! ✨", animation: "flowers" },
+    { id: 6, text: "User story написана,\nТаня знает ответ,\nПуть проложен! 💫", animation: "hearts" },
+    { id: 7, text: "Десять из десяти!\nТаня, твои решения —\nЭлегантны и просты! 🌟", animation: "butterflies" },
+    { id: 8, text: "Таня, глаза твои —\nВидят то, что другие не видят,\nИнсайты и суть! 💕", animation: "petals" },
+    { id: 9, text: "Prototype готов,\nТанюша показала класс,\nКоманда аплодирует! 💖", animation: "glitter" },
+    { id: 10, text: "Спринт за спринтом,\nТаня не устаёт,\nЭнергия бьёт ключом! 🏆", animation: "rainbow" },
+    { id: 11, text: "Таня, руки твои —\nМагия в каждом жесте,\nДизайн оживает! 🌷", animation: "nps" },
+    { id: 12, text: "Figma — твой меч,\nТаня владеет им мастерски,\nСоздаёт奇迹! 📝", animation: "sakura" },
+    { id: 13, text: "Test успешен,\nТанюша, твой UX —\nПример для подражания! 💯", animation: "confetti" },
+    { id: 14, text: "Таня, голос твой —\nКак идеальный tone of voice,\nСлышат и понимают! 💜", animation: "stars" },
+    { id: 15, text: "Design system —\nТаня создала порядок,\nХаос побеждён! 🎨", animation: "birds" },
+    { id: 16, text: "Танюша, сердце —\nКак CTI-кнопка всегда,\nВедёт к добру! 🦋", animation: "bees" },
+    { id: 17, text: "Mobile first —\nТаня мыслит широко,\nВсе устройства! 💖", animation: "flowers" },
+    { id: 18, text: "Таня, талант —\nКак редкий шрифт в коллекции,\nУникальный и ценный! 📚", animation: "hearts" },
+    { id: 19, text: "Client доволен,\nТанюша — молодец,\nПроект сдан в срок! 🎉", animation: "butterflies" },
+    { id: 20, text: "Таня, с 8 Марта!\nТы — сердце команды,\nТепло и забота! 🌺", animation: "petals" },
+    { id: 21, text: "Танюша прекрасна,\nКак сбалансированный layout,\nГармония и стиль! ✨", animation: "glitter" },
+  ],
+}
+
+// Коды доступа (новые для всех четырёх)
+const ACCESS_CODES: Record<string, { name: string; audioFile: string }> = {
+  "2025YANA8M": { name: "Яна", audioFile: "/yana.mp3" },
+  "2025ANNA8M": { name: "Аня", audioFile: "/anna.mp3" },
+  "2025VERA8M": { name: "Вероника", audioFile: "/veronica.mp3" },
+  "2025TANYA8M": { name: "Таня", audioFile: "/tanya.mp3" },
+}
 
 // Формы карточек с CSS clip-path (21 форма)
 const cardShapes = [
-  { name: 'rounded', clipPath: 'none', borderRadius: '24px', isStar: false, hasImage: false },
-  { name: 'circle', clipPath: 'none', borderRadius: '50%', isStar: false, hasImage: false },
-  { name: 'hexagon', clipPath: 'polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%)', borderRadius: '0', isStar: false, hasImage: false },
-  { name: 'flower', clipPath: 'none', borderRadius: '50%', isStar: false, hasImage: false },
-  { name: 'diamond', clipPath: 'polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%)', borderRadius: '0', isStar: false, hasImage: false },
-  { name: 'cloud', clipPath: 'polygon(20% 0%, 80% 0%, 100% 30%, 100% 70%, 80% 100%, 20% 100%, 0% 70%, 0% 30%)', borderRadius: '0', isStar: false, hasImage: false },
-  { name: 'soft-rect', clipPath: 'none', borderRadius: '40px 10px 40px 10px', hasImage: true, imageIndex: 0, isStar: false },
-  { name: 'circle2', clipPath: 'none', borderRadius: '50%', isStar: false, hasImage: false },
-  { name: 'leaf', clipPath: 'polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%)', borderRadius: '0', isStar: false, hasImage: false },
-  { name: 'oval', clipPath: 'none', borderRadius: '50%', isStar: false, hasImage: false },
-  { name: 'pill', clipPath: 'none', borderRadius: '100px', isStar: false, hasImage: false },
-  { name: 'blob', clipPath: 'polygon(30% 0%, 70% 0%, 100% 30%, 100% 70%, 70% 100%, 30% 100%, 0% 70%, 0% 30%)', borderRadius: '0', isStar: false, hasImage: false },
-  { name: 'hexagon2', clipPath: 'polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%)', borderRadius: '0', isStar: false, hasImage: false },
-  { name: 'rounded2', clipPath: 'none', borderRadius: '30px', isStar: false, hasImage: true, imageIndex: 1 },
-  { name: 'circle3', clipPath: 'none', borderRadius: '50%', isStar: false, hasImage: false },
-  { name: 'diamond2', clipPath: 'polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%)', borderRadius: '0', isStar: false, hasImage: false },
-  { name: 'cloud2', clipPath: 'polygon(20% 0%, 80% 0%, 100% 30%, 100% 70%, 80% 100%, 20% 100%, 0% 70%, 0% 30%)', borderRadius: '0', isStar: false, hasImage: false },
-  { name: 'flower2', clipPath: 'none', borderRadius: '50%', isStar: false, hasImage: false },
-  { name: 'leaf2', clipPath: 'polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%)', borderRadius: '0', isStar: false, hasImage: false },
-  { name: 'pill2', clipPath: 'none', borderRadius: '100px', isStar: false, hasImage: true, imageIndex: 2 },
-  { name: 'blob2', clipPath: 'polygon(30% 0%, 70% 0%, 100% 30%, 100% 70%, 70% 100%, 30% 100%, 0% 70%, 0% 30%)', borderRadius: '0', isStar: false, hasImage: false },
+  { name: 'rounded', clipPath: 'none', borderRadius: '24px', hasImage: false },
+  { name: 'circle', clipPath: 'none', borderRadius: '50%', hasImage: false },
+  { name: 'hexagon', clipPath: 'polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%)', borderRadius: '0', hasImage: false },
+  { name: 'flower', clipPath: 'none', borderRadius: '50%', hasImage: false },
+  { name: 'diamond', clipPath: 'polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%)', borderRadius: '0', hasImage: false },
+  { name: 'cloud', clipPath: 'polygon(20% 0%, 80% 0%, 100% 30%, 100% 70%, 80% 100%, 20% 100%, 0% 70%, 0% 30%)', borderRadius: '0', hasImage: false },
+  { name: 'soft-rect', clipPath: 'none', borderRadius: '40px 10px 40px 10px', hasImage: true, imageIndex: 0 },
+  { name: 'circle2', clipPath: 'none', borderRadius: '50%', hasImage: false },
+  { name: 'leaf', clipPath: 'polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%)', borderRadius: '0', hasImage: false },
+  { name: 'oval', clipPath: 'none', borderRadius: '50%', hasImage: false },
+  { name: 'pill', clipPath: 'none', borderRadius: '100px', hasImage: false },
+  { name: 'blob', clipPath: 'polygon(30% 0%, 70% 0%, 100% 30%, 100% 70%, 70% 100%, 30% 100%, 0% 70%, 0% 30%)', borderRadius: '0', hasImage: false },
+  { name: 'hexagon2', clipPath: 'polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%)', borderRadius: '0', hasImage: false },
+  { name: 'rounded2', clipPath: 'none', borderRadius: '30px', hasImage: true, imageIndex: 1 },
+  { name: 'circle3', clipPath: 'none', borderRadius: '50%', hasImage: false },
+  { name: 'diamond2', clipPath: 'polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%)', borderRadius: '0', hasImage: false },
+  { name: 'cloud2', clipPath: 'polygon(20% 0%, 80% 0%, 100% 30%, 100% 70%, 80% 100%, 20% 100%, 0% 70%, 0% 30%)', borderRadius: '0', hasImage: false },
+  { name: 'flower2', clipPath: 'none', borderRadius: '50%', hasImage: false },
+  { name: 'leaf2', clipPath: 'polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%)', borderRadius: '0', hasImage: false },
+  { name: 'pill2', clipPath: 'none', borderRadius: '100px', hasImage: true, imageIndex: 2 },
+  { name: 'blob2', clipPath: 'polygon(30% 0%, 70% 0%, 100% 30%, 100% 70%, 70% 100%, 30% 100%, 0% 70%, 0% 30%)', borderRadius: '0', hasImage: false },
 ]
 
 // Позиции карточек вокруг центра (21 карточка)
@@ -144,28 +139,22 @@ const cardPositions = [
   { x: 3, y: 32, width: 230, height: 230 },
   { x: 80, y: 55, width: 300, height: 300 },
   { x: 8, y: 72, width: 200, height: 180 },
-  { x: 40, y: 78, width: 364, height: 286 },  // soft-rect с фото - в 1.3 раза больше
-  { x: 18, y: 5, width: 480, height: 480 },    // circle2 (бывшая звезда) - в 1.5 раза больше
+  { x: 40, y: 78, width: 364, height: 286 },
+  { x: 18, y: 5, width: 480, height: 480 },
   { x: 92, y: 35, width: 220, height: 200 },
   { x: 2, y: 55, width: 180, height: 160 },
   { x: 68, y: 2, width: 200, height: 160 },
   { x: 25, y: 78, width: 200, height: 180 },
   { x: 92, y: 8, width: 300, height: 270 },
-  { x: 5, y: 18, width: 270, height: 240 },   // rounded2 с фото - в 1.5 раза больше
-  { x: 55, y: 2, width: 480, height: 480 },     // circle3 (бывшая звезда) - в 1.5 раза больше
+  { x: 5, y: 18, width: 270, height: 240 },
+  { x: 55, y: 2, width: 480, height: 480 },
   { x: 3, y: 85, width: 300, height: 300 },
   { x: 88, y: 78, width: 200, height: 180 },
   { x: 40, y: 12, width: 230, height: 230 },
   { x: 15, y: 55, width: 220, height: 200 },
-  { x: 72, y: 85, width: 270, height: 210 },   // pill2 с фото - в 1.5 раза больше
+  { x: 72, y: 85, width: 270, height: 210 },
   { x: 85, y: 15, width: 200, height: 180 },
 ]
-
-// Коды доступа
-const ACCESS_CODES: Record<string, { name: string; audioFile: string }> = {
-  "1782674352GE": { name: "Яна", audioFile: "/yana.mp3" },
-  "6835648823AN": { name: "Аня", audioFile: "/anna.mp3" },
-}
 
 // Эмодзи для карточек
 const cardEmojis = ['🌸', '✨', '💖', '🌺', '🦋', '🌷', '💐', '🎀', '🌺', '✨', '🌸', '💖', '🌻', '🌼', '💝', '🌹', '🪻', '🌸', '💐', '🌺', '🌷']
@@ -460,11 +449,11 @@ function ResetButton({ onClick, isVisible }: { onClick: () => void; isVisible: b
 
 // Интерактивная карточка
 interface CardProps {
-  greeting: typeof greetings[0]
-  position: typeof cardPositions[0]
+  greeting: { id: number; text: string; animation: string }
+  position: { x: number; y: number; width: number; height: number }
   index: number
   emoji: string
-  shape: typeof cardShapes[0]
+  shape: { name: string; clipPath: string; borderRadius: string; hasImage: boolean; imageIndex?: number }
   isFlipped: boolean
   flipZIndex: number
   onFlip: (animation: string) => void
@@ -617,7 +606,12 @@ export default function Home() {
   const [cardZIndexes, setCardZIndexes] = useState<Map<number, number>>(new Map())
   const [nextZIndex, setNextZIndex] = useState(100)
   
-  const shuffledGreetings = useMemo(() => shuffleArray(greetings), [])
+  // Получаем персонализированные хокку для текущего пользователя
+  const shuffledGreetings = useMemo(() => {
+    if (!userData?.name) return []
+    const personGreetings = greetingsByPerson[userData.name] || []
+    return shuffleArray(personGreetings)
+  }, [userData])
   
   const handleCodeSubmit = useCallback((code: string) => {
     const data = ACCESS_CODES[code]
