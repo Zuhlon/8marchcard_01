@@ -102,7 +102,7 @@ const greetingsByPerson: Record<string, Array<{ id: number; text: string; animat
 const ACCESS_CODES: Record<string, { name: string; audioFile: string }> = {
   "YANA-78234": { name: "Яна", audioFile: "/yana.mp3" },
   "ANNA-56129": { name: "Аня", audioFile: "/anna.mp3" },
-  "VERA-93521": { name: "Вероника", audioFile: "/veronica.mp3" },
+  "VERONICA-93521": { name: "Вероника", audioFile: "/veronica.mp3" },
   "TANYA-64872": { name: "Таня", audioFile: "/tanya.mp3" },
 }
 
