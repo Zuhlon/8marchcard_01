@@ -98,7 +98,7 @@ const greetingsByPerson: Record<string, Array<{ id: number; text: string; animat
   ],
 }
 
-// Коды доступа (уникальные для всех четырёх)
+// Коды доступа (уникальные для всех четырёх) — обновлено 2025
 const ACCESS_CODES: Record<string, { name: string; audioFile: string }> = {
   "YANA-78234": { name: "Яна", audioFile: "/yana.mp3" },
   "ANNA-56129": { name: "Аня", audioFile: "/anna.mp3" },
